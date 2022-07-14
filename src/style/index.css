@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 0;
+}
+
+ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.ul-current {
+    height: 120px;
+}
+
+.deg-meteo {
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.current-deg {
+    font-size: 3.3rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.current-meteo {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.p-h-v {
+    align-items: flex-start;
+}
+
+.p-h-v p {
+    margin: 8px 0;
+    font-size: 1.3rem;
+}
+
+.ul-hours {
+    height: 100px;
+    border-top: 2px solid grey;
+    border-bottom: 2px solid grey;
+    margin: 0 10px;
+}
+
+.ul-hours li {
+    list-style: none;
+    width: 10%;
+}
+
+.ul-hours li p {
+    margin: 5px 0;
+}
+
+.hour-hours {
+    color: rgb(43, 43, 43);
+}
+
+.temp-hours {
+    font-size: 1.9rem;
+    font-weight: 600;
+}
+
+.ul-days li {
+    width: 12%;
+}
+
+.ul-days li p {
+    margin: 5px 0;
+    font-size: 1.3rem;
+    text-align: center;
+}
