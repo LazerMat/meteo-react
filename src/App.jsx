@@ -2,33 +2,33 @@ import { useEffect, useRef, useState } from "react"
 
 export default function App () {
 	const [date, setDate] = useState(new Date())
-	const day = date.toLocaleString('fr-FR', {
-		weekday: 'long'
-	})
-	const time = date.toLocaleString('fr-FR', {
-			hour: 'numeric',
-			minute: 'numeric'
-	})
 	const [data, setData] = useState()
 	const intervalRef = useRef()
+	const [verifCoords, setVerifCoords] = useState(false)
+
+	function apireq(pos) {
+		fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&appid=bcacfae3308438a0e113b76026287620&lang=fr&exclude=alerts&units=metric`)
+			.then(res => res.json())
+			.then(res => setData(res))
+	}
 
 	useEffect(() => {
-		navigator.geolocation.getCurrentPosition(pos => {
-			fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&appid=bcacfae3308438a0e113b76026287620&lang=fr&exclude=alerts&units=metric`)
-				.then(res => res.json())
-				.then(res => setData(res))
-			const interval = setInterval(() => {
-				fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&appid=bcacfae3308438a0e113b76026287620&lang=fr&exclude=alerts&units=metric`)
-					.then(res => res.json())
-					.then(res => setData(res))
+		navigator.geolocation.getCurrentPosition((pos) => {
+			setVerifCoords(true)
+			apireq(pos)
+			intervalRef.current = setInterval(() => {
+				apireq(pos)
 				setDate(new Date())
-			}, 60000);
-			intervalRef.current = interval
+			}, 10000);
 		})
 		return function cleanup(){
 			clearInterval(intervalRef.current)
 		}
 	}, [])
+
+	if(!verifCoords){
+		return <h1>Veuillez autoriser l'accès à votre localisation</h1>
+	}
 
 	if(!data){
 		return <h1>Chargement...</h1>
@@ -36,7 +36,17 @@ export default function App () {
 
 	return (
 		<div>
-			<h1>Temps ce {day} à {time}</h1>
+			<h1>Temps ce {
+				date.toLocaleString('fr-FR', {
+					weekday: 'long'
+				})
+				} à {
+					date.toLocaleString('fr-FR', {
+						hour: 'numeric',
+						minute: 'numeric'
+				})
+				}
+			</h1>
 			<ul className="ul-current">
 				<li><img src={`http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`} alt="image temps actuel" /></li>
 				<li className="deg-meteo">
